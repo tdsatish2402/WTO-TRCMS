@@ -38,7 +38,7 @@ fig_country = px.bar(
     country_counts.head(15),
     x="Count",
     y="Participant",
-    orientation="h"
+    orientation="h",
     labels={
         "Country": "Participant",
         "Count": "Number of Interventions"
