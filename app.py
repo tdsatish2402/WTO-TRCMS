@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ------------------------------
+# ==================================
 
 # PAGE CONFIG
 
-# ------------------------------
+# ==================================
 
 st.set_page_config(
 page_title="WTO Trade Concerns Dashboard",
@@ -15,19 +15,19 @@ layout="wide"
 
 st.title("WTO Trade Concerns Dashboard")
 
-# ------------------------------
+# ==================================
 
 # LOAD DATA
 
-# ------------------------------
+# ==================================
 
 df = pd.read_excel("TRCM_Database.xlsx")
 
-# ------------------------------
+# ==================================
 
 # SIDEBAR FILTERS
 
-# ------------------------------
+# ==================================
 
 st.sidebar.header("Filters")
 
@@ -59,11 +59,11 @@ filtered = df[
 & (df["Tone"].isin(selected_tones))
 ]
 
-# ------------------------------
+# ==================================
 
 # KPI CARDS
 
-# ------------------------------
+# ==================================
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -84,12 +84,12 @@ filtered["Measure Group"].nunique()
 
 concerns = []
 
-    for col in [
-    "Concern 1",
-    "Concern 2",
-    "Concern 3",
-    "Concern 4",
-    "Concern 5"
+for col in [
+"Concern 1",
+"Concern 2",
+"Concern 3",
+"Concern 4",
+"Concern 5"
 ]:
 concerns.extend(filtered[col].dropna().tolist())
 
@@ -100,13 +100,13 @@ len(set(concerns))
 
 st.divider()
 
-# ------------------------------
+# ==================================
 
 # COUNTRY CHART
 
-# ------------------------------
+# ==================================
 
-st.subheader("Countries Raising Concerns")
+st.subheader("Top Countries Raising Concerns")
 
 country_counts = (
 filtered["Country Raising"]
@@ -124,7 +124,8 @@ fig_country = px.bar(
 country_counts,
 x="Count",
 y="Country",
-orientation="h"
+orientation="h",
+title="Countries Raising Concerns"
 )
 
 st.plotly_chart(
@@ -132,11 +133,11 @@ fig_country,
 use_container_width=True
 )
 
-# ------------------------------
+# ==================================
 
-# TWO COLUMN CHARTS
+# TONE AND MEASURE GROUP CHARTS
 
-# ------------------------------
+# ==================================
 
 left, right = st.columns(2)
 
@@ -159,7 +160,8 @@ tone_counts.columns = [
 fig_tone = px.pie(
     tone_counts,
     names="Tone",
-    values="Count"
+    values="Count",
+    title="Tone Distribution"
 )
 
 st.plotly_chart(
@@ -189,7 +191,8 @@ fig_measure = px.bar(
     measure_counts,
     x="Count",
     y="Measure Group",
-    orientation="h"
+    orientation="h",
+    title="Most Common Measure Groups"
 )
 
 st.plotly_chart(
@@ -198,11 +201,42 @@ st.plotly_chart(
 )
 ```
 
-# ------------------------------
+# ==================================
+
+# WTO BODY ANALYSIS
+
+# ==================================
+
+st.subheader("WTO Bodies")
+
+body_counts = (
+filtered["Body"]
+.value_counts()
+.reset_index()
+)
+
+body_counts.columns = [
+"Body",
+"Count"
+]
+
+fig_body = px.bar(
+body_counts,
+x="Body",
+y="Count",
+title="Interventions by WTO Body"
+)
+
+st.plotly_chart(
+fig_body,
+use_container_width=True
+)
+
+# ==================================
 
 # CONCERNS ANALYSIS
 
-# ------------------------------
+# ==================================
 
 st.subheader("Top Concerns")
 
@@ -232,7 +266,8 @@ fig_concern = px.bar(
 concern_counts,
 x="Count",
 y="Concern",
-orientation="h"
+orientation="h",
+title="Most Frequent Concerns"
 )
 
 st.plotly_chart(
@@ -240,11 +275,11 @@ fig_concern,
 use_container_width=True
 )
 
-# ------------------------------
+# ==================================
 
 # DATA EXPLORER
 
-# ------------------------------
+# ==================================
 
 st.subheader("Data Explorer")
 
