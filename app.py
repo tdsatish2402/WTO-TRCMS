@@ -2,212 +2,340 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Page settings
+# =====================================================
+
+# PAGE SETTINGS
+
+# =====================================================
+
 st.set_page_config(
-    page_title="WTO Trade Concerns Dashboard",
-    layout="wide"
+page_title="WTO Trade Concerns Dashboard",
+layout="wide"
 )
 
-# Title
 st.title("WTO Trade Concerns Dashboard")
 
-# Load data
+# =====================================================
+
+# LOAD DATA
+
+# =====================================================
+
 df = pd.read_excel("TRCM_Database.xlsx")
 
-# Summary statistics
+# =====================================================
+
+# SUMMARY
+
+# =====================================================
+
 st.header("Summary (2026)")
 
 col1, col2, col3 = st.columns(3)
 
-col1.metric("Total Interventions", len(df))
-col2.metric("Countries", df["Country Raising"].nunique())
-col3.metric("Measure Groups", df["Measure Group"].nunique())
+col1.metric(
+"Total Interventions",
+len(df)
+)
 
-# --------------------------------------------------
+col2.metric(
+"Participants",
+df["Country Raising"].nunique()
+)
+
+col3.metric(
+"Measure Groups",
+df["Measure Group"].nunique()
+)
+
+# =====================================================
+
 # INTERVENTIONS BY PARTICIPANT
-# --------------------------------------------------
+
+# =====================================================
 
 st.header("Interventions by Participants")
 
 country_counts = (
-    df["Country Raising"]
-    .value_counts()
-    .reset_index()
+df["Country Raising"]
+.value_counts()
+.reset_index()
 )
 
-country_counts.columns = ["Country", "Count"]
+country_counts.columns = [
+"Participant",
+"Count"
+]
 
 fig_country = px.bar(
-    country_counts.head(15),
-    x="Count",
-    y="Country",
-    orientation="h",
-    labels={
-        "Country": "Participant",
-        "Count": "Number of Interventions"
-    }
+country_counts,
+x="Count",
+y="Participant",
+orientation="h",
+labels={
+"Count": "Number of Interventions",
+"Participant": "Participant"
+}
 )
 
-st.plotly_chart(fig_country, use_container_width=True)
+st.plotly_chart(
+fig_country,
+use_container_width=True
+)
 
-# --------------------------------------------------
+# =====================================================
+
 # TONE DISTRIBUTION
-# --------------------------------------------------
+
+# =====================================================
 
 st.header("Tone Distribution")
 
 tone_counts = (
-    df["Tone"]
-    .value_counts()
-    .reset_index()
+df["Tone"]
+.value_counts()
+.reset_index()
 )
 
-tone_counts.columns = ["Tone", "Count"]
+tone_counts.columns = [
+"Tone",
+"Count"
+]
 
 fig_tone = px.pie(
-    tone_counts,
-    names="Tone",
-    values="Count"
+tone_counts,
+names="Tone",
+values="Count"
 )
 
-st.plotly_chart(fig_tone, use_container_width=True)
+st.plotly_chart(
+fig_tone,
+use_container_width=True
+)
 
-# --------------------------------------------------
-# WTO BODY CHART
-# --------------------------------------------------
+# =====================================================
+
+# WTO BODY DISTRIBUTION
+
+# =====================================================
 
 st.header("WTO Bodies")
 
 body_counts = (
-    df["Body"]
-    .value_counts()
-    .reset_index()
+df["Body"]
+.value_counts()
+.reset_index()
 )
 
-body_counts.columns = ["Body", "Count"]
-
-fig_body = px.bar(
-    body_counts,
-    x="Body",
-    y="Count"
-)
-
-st.plotly_chart(fig_body, use_container_width=True)
-
-# --------------------------------------------------
-# CONCERN HIERARCHY SUNBURST
-# --------------------------------------------------
-
-st.header("Concern Hierarchy")
-
-concern_frames = []
-
-for i in range(1, 6):
-
-    temp = df[
-        [
-            "Country Raising",
-            f"Concern {i}",
-            f"Sub-Concern {i}"
-        ]
-    ].copy()
-
-    temp.columns = [
-        "Participant",
-        "Concern",
-        "SubConcern"
-    ]
-
-    concern_frames.append(temp)
-
-concern_df = pd.concat(
-    concern_frames,
-    ignore_index=True
-)
-
-concern_df = concern_df.dropna()
-
-fig_concern_sunburst = px.sunburst(
-    concern_df,
-    path=[
-        "Participant",
-        "Concern",
-        "SubConcern"
-    ],
-    title="Participant → Concern → Sub-Concern"
-)
-
-st.plotly_chart(
-    fig_concern_sunburst,
-    use_container_width=True
-)
-
-# --------------------------------------------------
-# MEASURE HIERARCHY SUNBURST
-# --------------------------------------------------
-
-st.header("Measure Hierarchy")
-
-measure_df = df[
-    [
-        "Country Raising",
-        "Measure Group",
-        "Specific Measure"
-    ]
-].copy()
-
-measure_df.columns = [
-    "Participant",
-    "MeasureGroup",
-    "SpecificMeasure"
+body_counts.columns = [
+"Body",
+"Count"
 ]
 
-measure_df = measure_df.dropna()
-
-fig_measure_sunburst = px.sunburst(
-    measure_df,
-    path=[
-        "Participant",
-        "MeasureGroup",
-        "SpecificMeasure"
-    ],
-    title="Participant → Measure Group → Specific Measure"
+fig_body = px.bar(
+body_counts,
+x="Body",
+y="Count",
+labels={
+"Count": "Number of Interventions"
+}
 )
 
 st.plotly_chart(
-    fig_measure_sunburst,
-    use_container_width=True
+fig_body,
+use_container_width=True
 )
 
-# --------------------------------------------------
-# COUNTRY × MEASURE GROUP HEATMAP
-# --------------------------------------------------
+# =====================================================
+
+# TOP CONCERN FAMILIES
+
+# =====================================================
+
+st.header("Top Concern Families")
+
+all_concerns = pd.concat([
+df["Concern 1"],
+df["Concern 2"],
+df["Concern 3"],
+df["Concern 4"],
+df["Concern 5"]
+])
+
+all_concerns = all_concerns.dropna()
+
+concern_counts = (
+all_concerns
+.value_counts()
+.reset_index()
+)
+
+concern_counts.columns = [
+"Concern",
+"Count"
+]
+
+fig_concerns = px.bar(
+concern_counts.head(20),
+x="Count",
+y="Concern",
+orientation="h",
+labels={
+"Count": "Number of Mentions",
+"Concern": "Concern Family"
+}
+)
+
+st.plotly_chart(
+fig_concerns,
+use_container_width=True
+)
+
+# =====================================================
+
+# TOP SUB-CONCERNS
+
+# =====================================================
+
+st.header("Top Sub-Concerns")
+
+all_subconcerns = pd.concat([
+df["Sub-Concern 1"],
+df["Sub-Concern 2"],
+df["Sub-Concern 3"],
+df["Sub-Concern 4"],
+df["Sub-Concern 5"]
+])
+
+all_subconcerns = all_subconcerns.dropna()
+
+subconcern_counts = (
+all_subconcerns
+.value_counts()
+.reset_index()
+)
+
+subconcern_counts.columns = [
+"SubConcern",
+"Count"
+]
+
+fig_subconcerns = px.bar(
+subconcern_counts.head(20),
+x="Count",
+y="SubConcern",
+orientation="h",
+labels={
+"Count": "Number of Mentions",
+"SubConcern": "Sub-Concern"
+}
+)
+
+st.plotly_chart(
+fig_subconcerns,
+use_container_width=True
+)
+
+# =====================================================
+
+# MEASURE GROUPS
+
+# =====================================================
+
+st.header("Measure Groups")
+
+measure_counts = (
+df["Measure Group"]
+.value_counts()
+.reset_index()
+)
+
+measure_counts.columns = [
+"MeasureGroup",
+"Count"
+]
+
+fig_measure_group = px.bar(
+measure_counts,
+x="Count",
+y="MeasureGroup",
+orientation="h",
+labels={
+"Count": "Number of Interventions",
+"MeasureGroup": "Measure Group"
+}
+)
+
+st.plotly_chart(
+fig_measure_group,
+use_container_width=True
+)
+
+# =====================================================
+
+# PARTICIPANT × CONCERN HEATMAP
+
+# =====================================================
+
+st.header("Participants and Concerns")
+
+heatmap_concern = pd.crosstab(
+df["Country Raising"],
+df["Concern 1"]
+)
+
+fig_heatmap_concern = px.imshow(
+heatmap_concern,
+aspect="auto",
+labels=dict(
+x="Concern Family",
+y="Participant",
+color="Count"
+)
+)
+
+st.plotly_chart(
+fig_heatmap_concern,
+use_container_width=True
+)
+
+# =====================================================
+
+# PARTICIPANT × MEASURE GROUP HEATMAP
+
+# =====================================================
 
 st.header("Participant × Measure Group")
 
-heatmap_df = pd.crosstab(
-    df["Country Raising"],
-    df["Measure Group"]
+heatmap_measure = pd.crosstab(
+df["Country Raising"],
+df["Measure Group"]
 )
 
-fig_heatmap = px.imshow(
-    heatmap_df,
-    aspect="auto",
-    title="Interventions by Participant and Measure Group"
+fig_heatmap_measure = px.imshow(
+heatmap_measure,
+aspect="auto",
+labels=dict(
+x="Measure Group",
+y="Participant",
+color="Count"
+)
 )
 
 st.plotly_chart(
-    fig_heatmap,
-    use_container_width=True
+fig_heatmap_measure,
+use_container_width=True
 )
 
-# --------------------------------------------------
+# =====================================================
+
 # DATABASE
-# --------------------------------------------------
+
+# =====================================================
 
 st.header("Database")
 
 st.dataframe(
-    df,
-    use_container_width=True
+df,
+use_container_width=True
 )
