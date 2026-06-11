@@ -210,16 +210,50 @@ heatmap_concern = pd.crosstab(
 
 st.subheader("Participant × Concern Family")
 
+concern_frames = []
+
+for i in range(1, 6):
+
+    temp = df[
+        [
+            "Country Raising",
+            f"Concern {i}"
+        ]
+    ].copy()
+
+    temp.columns = [
+        "Participant",
+        "Concern"
+    ]
+
+    concern_frames.append(temp)
+
+concern_df = pd.concat(
+    concern_frames,
+    ignore_index=True
+)
+
+concern_df = concern_df.dropna()
+
+heatmap_concern = pd.crosstab(
+    concern_df["Participant"],
+    concern_df["Concern"]
+)
+
 fig_heatmap_concern = px.imshow(
     heatmap_concern,
-    aspect="auto"
+    aspect="auto",
+    labels=dict(
+        x="Concern Family",
+        y="Participant",
+        color="Mentions"
+    )
 )
 
 st.plotly_chart(
     fig_heatmap_concern,
     use_container_width=True
 )
-
 st.divider()
 
 # --------------------------------------------------
