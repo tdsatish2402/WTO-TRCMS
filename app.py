@@ -85,11 +85,11 @@ filtered["Measure Group"].nunique()
 concerns = []
 
 for col in [
-"Concern 1",
-"Concern 2",
-"Concern 3",
-"Concern 4",
-"Concern 5"
+    "Concern 1",
+    "Concern 2",
+    "Concern 3",
+    "Concern 4",
+    "Concern 5"
 ]:
 concerns.extend(filtered[col].dropna().tolist())
 
