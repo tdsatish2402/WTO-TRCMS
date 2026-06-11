@@ -23,8 +23,11 @@ col1.metric("Total Interventions", len(df))
 col2.metric("Countries", df["Country Raising"].nunique())
 col3.metric("Measure Groups", df["Measure Group"].nunique())
 
-# Countries chart
-st.header("Inteventions by Participants")
+# --------------------------------------------------
+# INTERVENTIONS BY PARTICIPANT
+# --------------------------------------------------
+
+st.header("Interventions by Participants")
 
 country_counts = (
     df["Country Raising"]
@@ -47,7 +50,10 @@ fig_country = px.bar(
 
 st.plotly_chart(fig_country, use_container_width=True)
 
-# Tone chart
+# --------------------------------------------------
+# TONE DISTRIBUTION
+# --------------------------------------------------
+
 st.header("Tone Distribution")
 
 tone_counts = (
@@ -66,7 +72,10 @@ fig_tone = px.pie(
 
 st.plotly_chart(fig_tone, use_container_width=True)
 
-# WTO Body chart
+# --------------------------------------------------
+# WTO BODY CHART
+# --------------------------------------------------
+
 st.header("WTO Bodies")
 
 body_counts = (
@@ -85,7 +94,120 @@ fig_body = px.bar(
 
 st.plotly_chart(fig_body, use_container_width=True)
 
-# Data table
+# --------------------------------------------------
+# CONCERN HIERARCHY SUNBURST
+# --------------------------------------------------
+
+st.header("Concern Hierarchy")
+
+concern_frames = []
+
+for i in range(1, 6):
+
+    temp = df[
+        [
+            "Country Raising",
+            f"Concern {i}",
+            f"Sub-Concern {i}"
+        ]
+    ].copy()
+
+    temp.columns = [
+        "Participant",
+        "Concern",
+        "SubConcern"
+    ]
+
+    concern_frames.append(temp)
+
+concern_df = pd.concat(
+    concern_frames,
+    ignore_index=True
+)
+
+concern_df = concern_df.dropna()
+
+fig_concern_sunburst = px.sunburst(
+    concern_df,
+    path=[
+        "Participant",
+        "Concern",
+        "SubConcern"
+    ],
+    title="Participant → Concern → Sub-Concern"
+)
+
+st.plotly_chart(
+    fig_concern_sunburst,
+    use_container_width=True
+)
+
+# --------------------------------------------------
+# MEASURE HIERARCHY SUNBURST
+# --------------------------------------------------
+
+st.header("Measure Hierarchy")
+
+measure_df = df[
+    [
+        "Country Raising",
+        "Measure Group",
+        "Specific Measure"
+    ]
+].copy()
+
+measure_df.columns = [
+    "Participant",
+    "MeasureGroup",
+    "SpecificMeasure"
+]
+
+measure_df = measure_df.dropna()
+
+fig_measure_sunburst = px.sunburst(
+    measure_df,
+    path=[
+        "Participant",
+        "MeasureGroup",
+        "SpecificMeasure"
+    ],
+    title="Participant → Measure Group → Specific Measure"
+)
+
+st.plotly_chart(
+    fig_measure_sunburst,
+    use_container_width=True
+)
+
+# --------------------------------------------------
+# COUNTRY × MEASURE GROUP HEATMAP
+# --------------------------------------------------
+
+st.header("Participant × Measure Group")
+
+heatmap_df = pd.crosstab(
+    df["Country Raising"],
+    df["Measure Group"]
+)
+
+fig_heatmap = px.imshow(
+    heatmap_df,
+    aspect="auto",
+    title="Interventions by Participant and Measure Group"
+)
+
+st.plotly_chart(
+    fig_heatmap,
+    use_container_width=True
+)
+
+# --------------------------------------------------
+# DATABASE
+# --------------------------------------------------
+
 st.header("Database")
 
-st.dataframe(df, use_container_width=True)
+st.dataframe(
+    df,
+    use_container_width=True
+)
