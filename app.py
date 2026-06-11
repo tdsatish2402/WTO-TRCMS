@@ -2,11 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ==================================
-
-# PAGE CONFIG
-
-# ==================================
+==================================
+PAGE CONFIG
+==================================
 
 st.set_page_config(
 page_title="WTO Trade Concerns Dashboard",
@@ -15,19 +13,15 @@ layout="wide"
 
 st.title("WTO Trade Concerns Dashboard")
 
-# ==================================
-
-# LOAD DATA
-
-# ==================================
+==================================
+LOAD DATA
+==================================
 
 df = pd.read_excel("TRCM_Database.xlsx")
 
-# ==================================
-
-# SIDEBAR FILTERS
-
-# ==================================
+==================================
+SIDEBAR FILTERS
+==================================
 
 st.sidebar.header("Filters")
 
@@ -59,11 +53,9 @@ filtered = df[
 & (df["Tone"].isin(selected_tones))
 ]
 
-# ==================================
-
-# KPI CARDS
-
-# ==================================
+==================================
+KPI CARDS
+==================================
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -84,7 +76,7 @@ filtered["Measure Group"].nunique()
 
 concerns = []
 
-    for col in [
+for col in [
 "Concern 1",
 "Concern 2",
 "Concern 3",
@@ -100,11 +92,9 @@ len(set(concerns))
 
 st.divider()
 
-# ==================================
-
-# COUNTRY CHART
-
-# ==================================
+==================================
+COUNTRY CHART
+==================================
 
 st.subheader("Top Countries Raising Concerns")
 
@@ -133,17 +123,14 @@ fig_country,
 use_container_width=True
 )
 
-# ==================================
-
-# TONE AND MEASURE GROUP CHARTS
-
-# ==================================
+==================================
+TONE AND MEASURE GROUP CHARTS
+==================================
 
 left, right = st.columns(2)
 
 with left:
 
-```
 st.subheader("Tone Distribution")
 
 tone_counts = (
@@ -168,11 +155,9 @@ st.plotly_chart(
     fig_tone,
     use_container_width=True
 )
-```
 
 with right:
 
-```
 st.subheader("Measure Groups")
 
 measure_counts = (
@@ -199,13 +184,9 @@ st.plotly_chart(
     fig_measure,
     use_container_width=True
 )
-```
-
-# ==================================
-
-# WTO BODY ANALYSIS
-
-# ==================================
+==================================
+WTO BODY ANALYSIS
+==================================
 
 st.subheader("WTO Bodies")
 
@@ -232,11 +213,9 @@ fig_body,
 use_container_width=True
 )
 
-# ==================================
-
-# CONCERNS ANALYSIS
-
-# ==================================
+==================================
+CONCERNS ANALYSIS
+==================================
 
 st.subheader("Top Concerns")
 
@@ -275,11 +254,9 @@ fig_concern,
 use_container_width=True
 )
 
-# ==================================
-
-# DATA EXPLORER
-
-# ==================================
+==================================
+DATA EXPLORER
+==================================
 
 st.subheader("Data Explorer")
 
