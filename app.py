@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-==================================
+
 PAGE CONFIG
-==================================
+
 
 st.set_page_config(
 page_title="WTO Trade Concerns Dashboard",
@@ -13,15 +13,15 @@ layout="wide"
 
 st.title("WTO Trade Concerns Dashboard")
 
-==================================
+
 LOAD DATA
-==================================
+
 
 df = pd.read_excel("TRCM_Database.xlsx")
 
-==================================
+
 SIDEBAR FILTERS
-==================================
+
 
 st.sidebar.header("Filters")
 
@@ -53,9 +53,9 @@ filtered = df[
 & (df["Tone"].isin(selected_tones))
 ]
 
-==================================
+
 KPI CARDS
-==================================
+
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -92,9 +92,9 @@ len(set(concerns))
 
 st.divider()
 
-==================================
+
 COUNTRY CHART
-==================================
+
 
 st.subheader("Top Countries Raising Concerns")
 
@@ -123,9 +123,9 @@ fig_country,
 use_container_width=True
 )
 
-==================================
+
 TONE AND MEASURE GROUP CHARTS
-==================================
+
 
 left, right = st.columns(2)
 
@@ -184,9 +184,9 @@ st.plotly_chart(
     fig_measure,
     use_container_width=True
 )
-==================================
+
 WTO BODY ANALYSIS
-==================================
+
 
 st.subheader("WTO Bodies")
 
@@ -213,9 +213,9 @@ fig_body,
 use_container_width=True
 )
 
-==================================
+
 CONCERNS ANALYSIS
-==================================
+
 
 st.subheader("Top Concerns")
 
@@ -254,9 +254,9 @@ fig_concern,
 use_container_width=True
 )
 
-==================================
+
 DATA EXPLORER
-==================================
+
 
 st.subheader("Data Explorer")
 
