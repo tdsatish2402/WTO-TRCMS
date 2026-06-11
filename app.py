@@ -84,7 +84,7 @@ filtered["Measure Group"].nunique()
 
 concerns = []
 
-for col in [
+    for col in [
     "Concern 1",
     "Concern 2",
     "Concern 3",
