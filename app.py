@@ -37,7 +37,7 @@ country_counts.columns = ["Country", "Count"]
 fig_country = px.bar(
     country_counts.head(15),
     x="Count",
-    y="Participant",
+    y="Country",
     orientation="h",
     labels={
         "Country": "Participant",
