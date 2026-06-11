@@ -42,6 +42,7 @@ fig_country = px.bar(
     labels={
         "Country": "Participant",
         "Count": "Number of Interventions"
+    }
 )
 
 st.plotly_chart(fig_country, use_container_width=True)
