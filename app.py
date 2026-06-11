@@ -15,7 +15,7 @@ st.title("WTO Trade Concerns Dashboard")
 df = pd.read_excel("TRCM_Database.xlsx")
 
 # Summary statistics
-st.header("Summary")
+st.header("Summary (2026)")
 
 col1, col2, col3 = st.columns(3)
 
@@ -24,7 +24,7 @@ col2.metric("Countries", df["Country Raising"].nunique())
 col3.metric("Measure Groups", df["Measure Group"].nunique())
 
 # Countries chart
-st.header("Countries Raising Concerns")
+st.header("Inteventions by Participants")
 
 country_counts = (
     df["Country Raising"]
@@ -37,7 +37,7 @@ country_counts.columns = ["Country", "Count"]
 fig_country = px.bar(
     country_counts.head(15),
     x="Count",
-    y="Country",
+    y="Participant",
     orientation="h"
 )
 
