@@ -419,3 +419,9 @@ with st.expander(
         file_name="filtered_data.csv",
         mime="text/csv"
     )
+
+st.divider()
+
+st.caption(
+    "Trade-Related Climate and Sustainability Measures Database | Last updated: 13 June 2026"
+)
