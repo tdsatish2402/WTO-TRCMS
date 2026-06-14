@@ -24,7 +24,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("Trade-Related Climate and Sustainability Measures Database")
+st.title("ClimaTrade Observatory")
 
 # -----------------------------
 # LOAD DATA
