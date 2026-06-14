@@ -24,7 +24,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("ClimaTrade Observatory")
+st.markdown(
+    """
+    <div style="text-align:center; padding-bottom:20px;">
+        <h1 style="margin-bottom:0;">ClimaTrade Observatory</h1>
+        <h3 style="margin-top:5px; color:#555555; font-weight:400;">
+            Trade-Related Climate and Sustainability Measures Database
+        </h3>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # -----------------------------
 # LOAD DATA
