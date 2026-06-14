@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(
-    page_title="Trade-Related Climate and Sustainability Measures Database",
+    page_title="ClimaTrade Observatory",
     layout="wide"
 )
 
@@ -24,7 +24,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("Trade-Related Climate and Sustainability Measures Database")
+st.title("ClimaTrade Observatory")
 
 # -----------------------------
 # LOAD DATA
@@ -454,5 +454,5 @@ with st.expander(
 # -----------------------------
 
 st.caption(
-    "Trade-Related Climate and Sustainability Measures Database | Last updated: 13 June 2026"
+    "ClimaTrade Observatory | Last updated: 14 June 2026"
 )
