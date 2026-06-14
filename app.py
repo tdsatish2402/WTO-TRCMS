@@ -465,5 +465,5 @@ with st.expander(
 # -----------------------------
 
 st.caption(
-    "Trade-Related Climate and Sustainability Measures Database | Last updated: 13 June 2026"
+    "ClimaTrade Observatory | Last updated: 13 June 2026"
 )
