@@ -187,7 +187,8 @@ st.download_button(
 
 st.markdown("<h2>Overview</h2>", unsafe_allow_html=True)
 
-c1, c2, c3, c4, c5 = st.columns(5)
+row1 = st.columns(3)
+row2 = st.columns(2)
 
 c1.metric("Interventions", len(dashboard_df))
 c2.metric("Participants", dashboard_df["Country Raising"].nunique())
@@ -345,7 +346,7 @@ if not dashboard_concern_df.empty:
 
 st.markdown("<h2>Measures & Relationships</h2>", unsafe_allow_html=True)
 
-left, spacer, right = st.columns([1, 0.30, 1])
+left, spacer, right = st.columns(2)
 
 with left:
 
