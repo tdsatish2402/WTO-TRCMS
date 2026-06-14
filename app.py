@@ -47,8 +47,19 @@ if "Date" in df.columns:
     df["Year"] = pd.to_datetime(df["Date"], errors="coerce").dt.year
 
 PLOTLY_CONFIG = {
-    "displayModeBar": False,
-    "scrollZoom": False
+    "displayModeBar": True,
+    "displaylogo": False,
+    "scrollZoom": False,
+    "modeBarButtonsToRemove": [
+        "zoom",
+        "pan",
+        "select",
+        "lasso2d",
+        "zoomIn",
+        "zoomOut",
+        "autoScale",
+        "resetScale"
+    ]
 }
 
 CHART_FONT = {
