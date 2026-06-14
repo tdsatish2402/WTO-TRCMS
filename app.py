@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(
-    page_title="Trade-Related Climate and Sustainability Measures Database",
+    page_title="ClimaTrade Observatory",
     layout="wide"
 )
 
