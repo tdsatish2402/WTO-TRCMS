@@ -329,4 +329,4 @@ with tab5:
     )
 
 st.markdown("---")
-st.caption("ClimaTrade Observatory v2.0 | Governance Interaction Framework")
+st.caption("ClimaTrade Observatory | Governance Interaction Framework")
