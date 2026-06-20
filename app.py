@@ -22,7 +22,7 @@ background:#fafafa;
 
 st.markdown("""
 <div style="text-align:center;">
-<h1>ClimaTrade Observatory</h1>
+<h1 style="color:#9A05A9;">ClimaTrade Observatory</h1>
 <h3 style="font-weight:400;color:#666;">
 Trade-Related Climate and Sustainability Measures Database
 </h3>
@@ -118,7 +118,10 @@ c6.metric("Governance Dimensions", dimensions_long["Dimension"].nunique())
 # -----------------------------
 # AI STYLE INSIGHTS
 # -----------------------------
-st.markdown("## WTO Climate Governance Monitor")
+st.markdown(
+    "<h2 style='color:#9A05A9;'>WTO Climate Governance Monitor</h2>",
+    unsafe_allow_html=True
+)
 
 top_measure = filtered["Measure"].value_counts().idxmax()
 top_forum = filtered["WTO_Forum"].value_counts().idxmax()
